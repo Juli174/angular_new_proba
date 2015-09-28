@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<testsuite name="Yandex Browser 15.7.2357 (Windows 8.1 0.0.0)" package="" timestamp="2015-09-27T12:19:20" id="0" hostname="Lenovo-PC" tests="3" errors="0" failures="2" time="0.016">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 YaBrowser/15.7.2357.2877 Safari/537.36"/>
+  </properties>
+  <testcase name="был объявляем" time="0.008" classname="Yandex_Browser_15_7_2357_(Windows_8_1_0_0_0).В модуле Loft.Users"/>
+  <testcase name="который инициализирован" time="0.006" classname="Yandex_Browser_15_7_2357_(Windows_8_1_0_0_0).В модуле Loft.Users">
+    <failure type="">Expected 0 to be greater than 0.
+    at Object.&lt;anonymous&gt; (c:/loftblog/gits/ngLoft/builds/dev/app/users/users_test.js:15:39)
+    at Object.invoke (c:/loftblog/gits/ngLoft/bower_components/angular/angular.js:4476:17)
+    at Object.workFn (c:/loftblog/gits/ngLoft/bower_components/angular-mocks/angular-mocks.js:2438:20)
+</failure>
+  </testcase>
+  <testcase name="который можно менять" time="0.002" classname="Yandex_Browser_15_7_2357_(Windows_8_1_0_0_0).В модуле Loft.Users">
+    <failure type="">TypeError: testCtrl.addUser is not a function
+    at Object.&lt;anonymous&gt; (c:/loftblog/gits/ngLoft/builds/dev/app/users/users_test.js:20:14)
+    at Object.invoke (c:/loftblog/gits/ngLoft/bower_components/angular/angular.js:4476:17)
+    at Object.workFn (c:/loftblog/gits/ngLoft/bower_components/angular-mocks/angular-mocks.js:2438:20)
+Error: Declaration Location
+    at window.inject.angular.mock.inject (c:/loftblog/gits/ngLoft/bower_components/angular-mocks/angular-mocks.js:2409:25)
+    at Suite.&lt;anonymous&gt; (c:/loftblog/gits/ngLoft/builds/dev/app/users/users_test.js:17:31)
+    at Suite.&lt;anonymous&gt; (c:/loftblog/gits/ngLoft/builds/dev/app/users/users_test.js:11:3)
+    at Suite.&lt;anonymous&gt; (c:/loftblog/gits/ngLoft/builds/dev/app/users/users_test.js:5:2)
+</failure>
+  </testcase>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
