@@ -21,6 +21,8 @@
 	// 		controllerAs: 'usc'
 	// 	});
 	// }
+
+	UsersConfig.$inject = ['$stateProvider'];
 	function UsersConfig($stateProvider){
 		$stateProvider
 		.state('Users', {

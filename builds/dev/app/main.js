@@ -23,6 +23,7 @@
 	// 	.otherwise({redirectTo: '/'});
 	// }
 
+	Config.$inject = ['$urlRouterProvider'];
 	function Config($urlRouterProvider){
 		$urlRouterProvider.otherwise('/');
 	}

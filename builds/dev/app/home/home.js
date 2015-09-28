@@ -20,6 +20,8 @@
 	// 		controllerAs: 'usc'
 	// 	});
 	// }
+	//ConfigHome.$inject = ['$stateProvider'];
+	//@ngInject
 	function ConfigHome($stateProvider){
 		$stateProvider
 		.state('Home', {
