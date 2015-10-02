@@ -1,3 +1,20 @@
 <h1>Users</h1>
-<pre>{{usc}}</pre>
+<!-- <pre>{{usc}}</pre> -->
 <span ng-if='tf'>Hello</span>
+
+<table class='table'>
+	<thead>
+		<th>Number</th>
+		<th>Name</th>
+		<th>Balance</th>
+		<th>Eye color</th>
+	</thead>
+<tbody>
+	<tr ng-repeat='user in usc.list | balance'>
+		<td>{{$index + 1}}</td>
+		<td>{{user.name}}</td>
+		<td>{{user.balance}} руб.</td>
+		<td>{{user.eyeColor}}</td>
+	</tr>
+</tbody>
+</table>
