@@ -24,7 +24,7 @@ gulp.task('js', function(){
 		])
 	.pipe(concat('app.js'))
 	
-	.pipe(gulp.dest('builds/prod'));
+	.pipe(gulp.dest('builds/dev'));
 });
 
 gulp.task('pjs', function(){

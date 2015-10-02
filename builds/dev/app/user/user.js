@@ -21,7 +21,7 @@
 	// 	});
 	// }
 
-	UserConfig.$inject = ['$stateProvider'];
+	//UserConfig.$inject = ['$stateProvider'];
 	function UserConfig($stateProvider){
 		$stateProvider
 		.state('User', {
