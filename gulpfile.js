@@ -24,7 +24,7 @@ gulp.task('js', function(){
 		])
 	.pipe(concat('app.js'))
 	
-	.pipe(gulp.dest('builds/prod'));
+	.pipe(gulp.dest('builds/dev'));
 });
 
 gulp.task('pjs', function(){
@@ -43,6 +43,7 @@ gulp.task('pjs', function(){
 		'!builds/dev/app/**/*_test.js'
 		])
 	.pipe(concat('app.js'))
+	.pipe(ngAnnotate())
 	.pipe(uglify())
 	.pipe(gulp.dest('builds/prod'));
 });
