@@ -2,6 +2,13 @@
 <!-- <pre>{{usc}}</pre> -->
 <span ng-if='tf'>Hello</span>
 
+<pre>{{usc.eyeColorModel}}</pre>
+<div class="btn-group">
+        <label class="btn btn-success" ng-model="eyeColorModel" btn-radio="'Green'" uncheckable>Green</label>
+        <label class="btn btn-success" ng-model="eyeColorModel" btn-radio="'Blue'" uncheckable>Blue</label>
+        <label class="btn btn-success" ng-model="eyeColorModel" btn-radio="'Brown'" uncheckable>Brown</label>
+    </div>
+
 <table class='table'>
 	<thead>
 		<th>Number</th>
@@ -10,10 +17,10 @@
 		<th>Eye color</th>
 	</thead>
 <tbody>
-	<tr ng-repeat='user in usc.list | balance'>
+	<tr ng-repeat='user in usc.list | eyeColor | balance'>
 		<td>{{$index + 1}}</td>
 		<td>{{user.name}}</td>
-		<td>{{user.balance}} руб.</td>
+		<td>{{user.balance}}</td>
 		<td>{{user.eyeColor}}</td>
 	</tr>
 </tbody>

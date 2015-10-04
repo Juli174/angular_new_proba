@@ -140,7 +140,7 @@
 		}
 		var balance = arr[0]+x;
 		if(!balance || balance == undefined) balance='';
-		return balance;
+		return balance + ' руб.';
 
 	}
 
@@ -174,7 +174,8 @@
 		}
 	}
 	//@ngInject
-	function UsersController(UsersFactory, UsersService, $scope){
+	function UsersController(UsersFactory, UsersService, $scope, $log){
+		$log.debug('== Users Controller ==');
 		var s = this;
 		this.hello = "Users";
 		this.usersList = [];
@@ -182,8 +183,9 @@
 		console.log("== Controller ==");
 		console.log("UsersService privateVal: ", UsersService.getPrivate());
 		$scope.tf = true;
+		this.eyeColorModel = 'green';
 		//s.list = UsersFactory.getUsers();
-		// s.list = UsersFactory.getBlueEyeColorUsers();
+		s.list = UsersFactory.getEyeColorUsers();
 		s.list = UsersFactory.getBalanceUsers();
 	}
 
@@ -3370,8 +3372,8 @@
 			return privateVal;
 		}
 
-		o.getBlueEyeColorUsers = function(){
-			return $filter('eyeColor')(usersList, 'blue');
+		o.getEyeColorUsers = function(){
+			return $filter('eyeColor')(usersList, 'green');
 		}
 
 		o.getBalanceUsers = function(){
