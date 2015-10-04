@@ -9,12 +9,14 @@
 		.controller('UsersCtrl', UsersController)
 		.filter('eyeColor', EyeColorFilter)
 		.filter('balance', balanceFilter)
+		.filter('balanceVal', balanceValueFilter)
 		.factory('UsersFactory', UsersFactory)
 		.service('UsersService', UsersService)
 		.provider('Users', UsersProvider)
 		.run(Run);
 
 	function balanceView(balance){
+		if(typeof balance == "Object") return;
 		var arr = balance.toString().split('.');
 		var x = (arr.length > 1 ? "." + arr[1]: ".00");
 		var rgx = /(\d+)(\d{3})/;
@@ -22,7 +24,7 @@
 			arr[0] = arr[0].replace(rgx, "$1" + " " + "$2");
 		}
 		var balance = arr[0]+x;
-		if(!balance || balance == undefined) balance='';
+		
 		return balance + ' руб.';
 
 	}
@@ -39,6 +41,12 @@
 		}
 	}
 
+	//@ngInject
+	function balanceValueFilter(value){
+		return  balanceView(value);
+	}
+
+
 
 	//@ngInject
 	function EyeColorFilter(){
@@ -47,7 +55,7 @@
 			//console.log(input, color);
 			var result = [];
 			angular.forEach(input, function(e, i){
-				console.log(e, i);
+				//console.log(e, i);
 				if(e.eyeColor == color){
 					result.push(e);
 				}
@@ -69,7 +77,7 @@
 		this.eyeColorModel = 'green';
 		//s.list = UsersFactory.getUsers();
 		s.list = UsersFactory.getEyeColorUsers();
-		s.list = UsersFactory.getBalanceUsers();
+		//s.list = UsersFactory.getBalanceUsers();
 	}
 
 	//@ngInject
@@ -3291,15 +3299,15 @@
 
 	//@ngInject
 	function Run(FIREBASE_URL, configOptions, UsersFactory, UsersService, Users){
-		console.log("== Run Users ==");
-		console.log(FIREBASE_URL);
-		console.log(configOptions);
+		//console.log("== Run Users ==");
+		//console.log(FIREBASE_URL);
+		//console.log(configOptions);
 		UsersFactory.setPrivate('Hello guys');
-		console.log("UsersService privateVal: ", UsersService.getPrivate());
+		//console.log("UsersService privateVal: ", UsersService.getPrivate());
 		UsersService.setPrivate('Users Service Singletone');
 		//Users.setPrivate("New Private Value");
-		console.log("++ Users ++", Users);
-		console.log("USERSPROVIDER private: ", Users.getPrivate());
+		//console.log("++ Users ++", Users);
+		//console.log("USERSPROVIDER private: ", Users.getPrivate());
 	}
 
 	// function UsersConfig($routeProvider){

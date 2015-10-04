@@ -17,10 +17,10 @@
 		<th>Eye color</th>
 	</thead>
 <tbody>
-	<tr ng-repeat='user in usc.list | eyeColor | balance'>
+	<tr ng-repeat='user in usc.list '>
 		<td>{{$index + 1}}</td>
 		<td>{{user.name}}</td>
-		<td>{{user.balance}}</td>
+		<td>{{user.balance | balanceVal:user.balance }}</td>
 		<td>{{user.eyeColor}}</td>
 	</tr>
 </tbody>
