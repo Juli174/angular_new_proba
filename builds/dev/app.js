@@ -120,18 +120,22 @@
 
 	angular
 		.module('Loft.Users', [
-			'ui.router'
+			'ui.router',
+			'ui.bootstrap',
+			'Loft.Users.Repository'
 			])
 		.config(UsersConfig)
 		.controller('UsersCtrl', UsersController)
 		.filter('eyeColor', EyeColorFilter)
 		.filter('balance', balanceFilter)
 		.filter('balanceVal', balanceValueFilter)
+		.filter('rusEyeColor', rusEyeColor)
 		.factory('UsersFactory', UsersFactory)
 		.service('UsersService', UsersService)
 		.provider('Users', UsersProvider)
 		.run(Run);
 
+	//@ngInject
 	function balanceView(balance){
 		if(typeof balance == "Object") return;
 		var arr = balance.toString().split('.');
@@ -147,6 +151,27 @@
 	}
 
 	//@ngInject
+	function rusEyeColor(){
+		return function(name){
+			var value;
+			switch (name){
+				case 'brown':
+					value = 'Карие';
+					break;
+				case 'green':
+					value = 'Зеленые';
+					break;
+				case 'blue':
+					value = 'Голубые';
+					break;
+				default:
+					value = 'Карие';
+			}
+			return value;
+		}
+	}
+
+	//@ngInject
 	function balanceFilter(){
 		return function(input){
 			var result = [];
@@ -159,8 +184,8 @@
 	}
 
 	//@ngInject
-	function balanceValueFilter(value){
-		return  balanceView(value);
+	function balanceValueFilter(){
+		return  balanceView;
 	}
 
 
@@ -178,11 +203,11 @@
 				}
 
 			});
-			return result
+			return result;
 		}
 	}
 	//@ngInject
-	function UsersController(UsersFactory, UsersService, $scope, $log){
+	function UsersController(UsersFactory, UsersService, $scope, $log, $timeout, UsersRepository){
 		$log.debug('== Users Controller ==');
 		var s = this;
 		this.hello = "Users";
@@ -192,9 +217,19 @@
 		console.log("UsersService privateVal: ", UsersService.getPrivate());
 		$scope.tf = true;
 		this.eyeColorModel = 'green';
+		$scope.eyeColor = 'green';
 		//s.list = UsersFactory.getUsers();
 		s.list = UsersFactory.getEyeColorUsers();
 		//s.list = UsersFactory.getBalanceUsers();
+		$scope.hello = "Привет";
+		$timeout(function(){
+			$scope.hello = "Пока";
+		}, 3000);
+
+		$scope.$watch('eyeColor', function(value){
+			s.list = UsersFactory.getEyeColorUsers(value);
+		});
+
 	}
 
 	//@ngInject
@@ -3380,8 +3415,8 @@
 			return privateVal;
 		}
 
-		o.getEyeColorUsers = function(){
-			return $filter('eyeColor')(usersList, 'green');
+		o.getEyeColorUsers = function(_color){
+			return $filter('eyeColor')(usersList, _color);
 		}
 
 		o.getBalanceUsers = function(){
@@ -3458,5 +3493,19 @@
 			}
 			return $delegate;
 		}]);
+	}
+})();
+;(function(){
+	'use strict';
+
+	angular
+	.module('Loft.Users.Repository', [])
+	.factory('UsersRepository', UsersRepositoryFactory);
+
+	//ngInject
+	function UsersRepositoryFactory(){
+		var o = {};
+
+		return o;
 	}
 })();
