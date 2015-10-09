@@ -38,7 +38,8 @@
 	
 	//Config.$inject = ['$urlRouterProvider'];
 	//@ngInject
-	function Config($urlRouterProvider, FIREBASE_URL){
+	function Config($urlRouterProvider, FIREBASE_URL, $logProvider){
+		$logProvider.debugEnabled(true);
 		$urlRouterProvider.otherwise('/');
 		console.log("== Config Main ==");
 		console.log(FIREBASE_URL);
