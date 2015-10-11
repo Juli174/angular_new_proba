@@ -5,11 +5,12 @@
 		.module('Loft', [
 			// 'ngRoute',
 			'ui.router',
+			'Loft.Fire',
 			'Loft.User',
 			'Loft.Users',
 			'Loft.Home'
 		])
-		.constant('FIREBASE_URL', 'http:/...')
+		.constant('FIREBASE_URL', 'https://yuliyaapp.firebaseio.com/')
 		.value('configOptions',{
 			lang: 'ru',
 			timezone: '+3'
@@ -30,7 +31,17 @@
 	// }
 
 	//@ngInject
-	function Run(FIREBASE_URL, configOptions){
+	function Run(FIREBASE_URL, configOptions, $rootScope){
+		$rootScope.alerts = [];
+
+		$rootScope.addAlert = function(_type, _msg) {
+			_type = _type || 'warning';
+		   $rootScope.alerts.push({type: _type, msg: _msg});
+		};
+
+		$rootScope.closeAlert = function(index) {
+		   $rootScope.alerts.splice(index, 1);
+		};
 		console.log("== Run Main ==");
 		console.log(FIREBASE_URL);
 		console.log(configOptions);
@@ -87,13 +98,14 @@
 
 	angular
 		.module('Loft.User', [
-			'ui.router'
+			'ui.router',
+			'Loft.Users.Repository'
 			])
 		.config(UserConfig)
 		.controller('UserCtrl', UserController);
 
 	//@ngInject
-	function UserController($q, $log){
+	function UserController($q, $log, UsersRepository, $rootScope){
 		$log.debug("== UserController ==");
 		var s = this;
 
@@ -147,6 +159,42 @@
 				function(_data){
 					$log.debug("after sonGo2Shop notify", _data);
 				});
+		}
+
+		//Firebase part
+		var users = UsersRepository.getAllUsers();
+		users.$loaded(function(_usersList){
+			s.list = _usersList;
+		});
+
+		// users.$watch(function(_usersList){
+		// 	s.list = _usersList;
+		// });
+
+		s.newUser = {
+			name: "",
+			surname: ""
+		};
+
+
+
+		s.addUser = function(){
+			UsersRepository.getNewUser(s.newUser)
+			.then(function(ref){
+				$rootScope.addAlert('success', 'Пользователь сохранен');
+			});
+			s.newUser = {
+				name: "",
+				surname: ""
+			};
+		}
+
+		s.removeUser = function(_$id){
+			UsersRepository.removeUser(_$id)
+				.then(function(){
+					console.log(arguments);
+					$rootScope.addAlert('success', "Пользователь удален");
+				})
 		}
 		
 	}
@@ -3557,13 +3605,59 @@
 ;(function(){
 	'use strict';
 
+	angular.module('Loft.Fire', [
+		'firebase'
+		])
+	.factory('dbc', dbcFactory);
+
+	//@ngInject
+	function dbcFactory(FIREBASE_URL, $firebaseAuth){
+		var o = {};
+		var reference = new Firebase(FIREBASE_URL);
+
+		o.getRef = function(){
+			return reference;
+		}
+
+		return o;
+	}
+
+})();
+;(function(){
+	'use strict';
+
 	angular
-	.module('Loft.Users.Repository', [])
+	.module('Loft.Users.Repository', [
+		'Loft.Fire'
+		])
 	.factory('UsersRepository', UsersRepositoryFactory);
 
 	//ngInject
-	function UsersRepositoryFactory(){
+	function UsersRepositoryFactory(dbc, $firebaseArray, $firebaseObject){
 		var o = {};
+
+		o.getAllUsers = function(){
+			var ref = dbc.getRef();
+
+			return $firebaseArray(ref.child('users'));
+		}
+
+		o.getNewUser = function(_user){
+			if(_user && _user.name && _user.name.length > 0){
+				var ref = dbc.getRef();
+				var usersList = $firebaseArray(ref.child('users'));
+				return usersList.$add(_user);
+			}
+			return false;
+		}
+
+		o.removeUser = function(_$id){
+			if(_$id){
+				var ref = dbc.getRef();
+				var userObject = $firebaseObject(ref.child('users').child(_$id));
+				return userObject.$remove();
+			}
+		}
 
 		return o;
 	}

@@ -1,3 +1,50 @@
 <h1>User</h1>
 
 <button ng-click='uc.test()'>Test</button>
+<br/>
+<br/>
+<div class="container">
+	<div class="row">
+		<form class="form-inline" name="newUserForm" ng-submit="uc.addUser()" novalidate>
+		  <div class="form-group" ng-class="{'has-error' : newUserForm.$invalid && newUserForm.$dirty}">
+		    <label class="sr-only" for="newUserName">Name</label>
+		    <input 
+			    type="text" 
+			    class="form-control" 
+			    id="newUserName" 
+			    placeholder="Name" 
+			    ng-model="uc.newUser.name"
+			    name="userName" 
+			    required>
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only" for="newUserSurname">Surname</label>
+		    <input type="text" class="form-control" id="newUserSurname" placeholder="Surname" ng-model="uc.newUser.surname" required>
+		  </div>
+		  <button type="submit" class="btn btn-default" ng-disabled="newUserForm.$invalid">Add User</button>
+		</form>
+	</div>
+</div>
+<br/>
+<table class='table'>
+	<thead>
+		<th>№</th>
+		<th>Имя</th>
+		<th>Фамилия</th>
+		<th>Управление</th>
+	</thead>
+<tbody>
+	<tr ng-repeat='user in uc.list '>
+		<td>{{$index + 1}}</td>
+		<td>{{user.name}}</td>
+		<td>{{user.surname }}</td>
+		<td><span class="pointer glyphicon glyphicon-remove" aria-hidden="true" ng-click="uc.removeUser(user.$id)"></span></td>
+	</tr>
+</tbody>
+</table>
+<br/>
+<!-- <pre>{{newUserForm | json}}</pre> -->
+
+<pre>{{uc.list | json}}</pre>
+
+

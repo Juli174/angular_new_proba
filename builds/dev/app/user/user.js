@@ -3,13 +3,14 @@
 
 	angular
 		.module('Loft.User', [
-			'ui.router'
+			'ui.router',
+			'Loft.Users.Repository'
 			])
 		.config(UserConfig)
 		.controller('UserCtrl', UserController);
 
 	//@ngInject
-	function UserController($q, $log){
+	function UserController($q, $log, UsersRepository, $rootScope){
 		$log.debug("== UserController ==");
 		var s = this;
 
@@ -63,6 +64,42 @@
 				function(_data){
 					$log.debug("after sonGo2Shop notify", _data);
 				});
+		}
+
+		//Firebase part
+		var users = UsersRepository.getAllUsers();
+		users.$loaded(function(_usersList){
+			s.list = _usersList;
+		});
+
+		// users.$watch(function(_usersList){
+		// 	s.list = _usersList;
+		// });
+
+		s.newUser = {
+			name: "",
+			surname: ""
+		};
+
+
+
+		s.addUser = function(){
+			UsersRepository.getNewUser(s.newUser)
+			.then(function(ref){
+				$rootScope.addAlert('success', 'Пользователь сохранен');
+			});
+			s.newUser = {
+				name: "",
+				surname: ""
+			};
+		}
+
+		s.removeUser = function(_$id){
+			UsersRepository.removeUser(_$id)
+				.then(function(){
+					console.log(arguments);
+					$rootScope.addAlert('success', "Пользователь удален");
+				})
 		}
 		
 	}

@@ -13,6 +13,8 @@ gulp.task('js', function(){
 		// 'bower_components/angular-route/angular-route.js',
 		'bower_components/ui-route/release/angular-ui-router.js',
 		'bower_components/angular-bootstrap/ui-bootstrap.js',
+		'bower_components/firebase/firebase.js',
+		'bower_components/angularfire/dist/angularfire.js',
 		'bower_components/angular-bootstrap/ui-bootstrap-tpls.js'
 		])
 	.pipe(concat('libs.js'))
